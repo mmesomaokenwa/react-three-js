@@ -1,9 +1,10 @@
-import React from 'react'
+import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment, Center } from '@react-three/drei'
 import Shirt from './Shirt'
 import CameraRig from './CameraRig'
 import Backdrop from './Backdrop'
+import ShirtLoader from './ShirtLoader'
 
 const CanvasModule = () => {
   return (
@@ -20,10 +21,12 @@ const CanvasModule = () => {
         }
       />
       <CameraRig>
-      <Backdrop />
-      <Center>
-        <Shirt />
-      </Center>
+        <Backdrop />
+        <Center>
+          {/* <Suspense fallback={<ShirtLoader />}> */}
+            <Shirt />
+          {/* </Suspense> */}
+        </Center>
       </CameraRig>
     </Canvas>
   );

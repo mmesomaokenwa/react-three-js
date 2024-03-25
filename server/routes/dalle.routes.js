@@ -18,31 +18,25 @@ router.route('/').get((req, res) => {
 router.route('/').post(async (req, res) => {
   try {
     const { prompt } = req.body;
-    // const response = await openai.post('/images/generations', {
-    //   'model': 'image-alpha-001',
-    //   'prompt': prompt,
-    //   'num_images': 1,
-    //   'size': '1024x1024',
-    //   'response_format': 'b64_json',
-    //   // 'quality': 'high'
-    // })
-    const response = await openai.request({
-      method: 'POST',
-      path: '/images/generations',
+    
+    const response = await openai.post("/images/generations", {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: {
-        'model': 'dall-e-2',
-        'prompt': prompt,
-        'num_images': 1,
-        'size': '1024x1024',
-        'response_format': 'b64_json',
-        // 'quality': 'high'
-      }
-    })
-    res.status(200).json({ photo: response.data.data[0].b64_json })
+        // 'model': 'dall-e-2',
+        prompt: prompt,
+        num_images: 1,
+        size: "1024x1024",
+        response_format: "b64_json",
+        quality: "hd",
+      },
+    });
+
+    const image = response.data[0].b64_json;
+
+    res.status(200).json({ photo: image })
   } catch (error) {
     console.error(error)
     res.status(500).json({ error: error.message })
